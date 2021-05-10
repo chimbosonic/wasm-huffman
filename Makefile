@@ -1,5 +1,6 @@
 PROJECT="wasm-huffman"
 
+# Sets up a containe in which you can build and run the project keeping your local env clean.
 setup-env: docker-build docker-run
 
 docker-build:
