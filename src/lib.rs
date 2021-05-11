@@ -5,6 +5,7 @@ use wasm_bindgen::prelude::*;
 use self::serde::{Deserialize, Serialize};
 use std::collections::HashMap;
 
+// Public Structs and Functions
 
 #[derive(Serialize, Deserialize, Debug)]
 pub struct HuffmanData {
@@ -12,20 +13,12 @@ pub struct HuffmanData {
     pub encoding_map: HashMap<char,String>,
 }
 
-struct Node {
-    left: Option<Box<Node>>,
-    right: Option<Box<Node>>,
-    freq: i64,
-    value: Option<char>,
-}
-
-
-
+// This is a example of a wasm exposed function
+// Need to do the same for the huffman encoder (It might need some wrappers to simplify input and output)
 #[wasm_bindgen]
 pub fn add(n1: i32, n2: i32) -> i32 {
     n1 + n2
 }
-
 
 //Takes a Hex String and a HashMap containing the Encoding map
 //Huffman Decodes it using the encoding map returns a string
@@ -39,7 +32,7 @@ pub fn huffman_decode(huffman_encoded_data: &HuffmanData) -> String {
 }
 
 //Takes a String and Huffman Encodes it returning a Hex version of the string and a HashMap containing the Encoding map
-pub fn huffman_encode(data: &String,debug: bool) -> HuffmanData {
+pub fn huffman_encode(data: &String) -> HuffmanData {
     let frequency_map = build_frequency_map(&data);
     let huffman_tree = build_huffman_tree(&frequency_map);
     let mut encoding_map:HashMap<char, String> = HashMap::new();
@@ -50,24 +43,18 @@ pub fn huffman_encode(data: &String,debug: bool) -> HuffmanData {
     let encoded_data_hex = u8_vec_to_hex_string(&encoded_data_u8_vec);
     let huffman_encoded_data = HuffmanData{encoded_data: encoded_data_hex,encoding_map: encoding_map};
 
-    if debug {
-        print_data(&data,"Provided String to encode".to_string());
-        print_frequency_map(&frequency_map);
-        print_node(&huffman_tree,true);
-        println!("Before Padding:");
-        print_stats(&data,&encoded_data_bin);
-        println!("After Padding:");
-        print_stats(&data,&padded_encoded_data_bin);
-        print_huffman_encoded_data(&huffman_encoded_data);
-    }
-
     return huffman_encoded_data;
 }
-    
 
+// Internal Structs and Functions
 
-//All of our builders
-//TESTED
+struct Node {
+    left: Option<Box<Node>>,
+    right: Option<Box<Node>>,
+    freq: i64,
+    value: Option<char>,
+}
+
 //Creates a HashMap containing Nodes with the frequency of every char in given String
 fn build_frequency_map(data: &String) -> HashMap<char, i64> {
     let mut frequency_map: HashMap<char, i64> = HashMap::new();
@@ -85,7 +72,6 @@ fn build_frequency_map(data: &String) -> HashMap<char, i64> {
     return frequency_map;
 }
 
-//TESTED
 //Creates a a Huffman Coding Tree with given Frequency Map
 // We sort the frequency list alphabetically then we sort it by frequency to give us consitancy in the tree we generate
 fn build_huffman_tree(frequency_map: &HashMap<char, i64>) -> Node {
@@ -109,7 +95,6 @@ fn build_huffman_tree(frequency_map: &HashMap<char, i64>) -> Node {
     return freq_list.pop().unwrap();
 }
 
-//TESTED
 //Creates a Hash Map of the encoding of every char within a given Huffman Tree. Left node edges are 0s and right node edges are 1s
 fn build_encoding_map(node: &Node,encoding_map: &mut HashMap<char, String>,code: String){
     match node.value {
@@ -135,8 +120,7 @@ fn build_encoding_map(node: &Node,encoding_map: &mut HashMap<char, String>,code:
 }
 
 
-// TESTED
-//Decodes a Binary string to a Vector of u8 ==> Tested by test_binary_string_encoder_decoder
+//Decodes a Binary string to a Vector of u8
 fn bin_string_to_u8_vec(bin_string: &String) -> Vec<u8>{
     let mut temp_byte: String = String::new();
     let mut u8_vec: Vec<u8> = Vec::new();
@@ -154,8 +138,7 @@ fn bin_string_to_u8_vec(bin_string: &String) -> Vec<u8>{
     return u8_vec
 }
 
-// TESTED
-//Encodes a Vector of u8 to a Binary string ==> Tested by test_binary_string_encoder_decoder
+//Encodes a Vector of u8 to a Binary string
 fn u8_vec_to_bin_string(u8_vec: &Vec<u8>) -> String{
     let mut bin_string: String = String::new();
     for byte in u8_vec {
@@ -164,8 +147,7 @@ fn u8_vec_to_bin_string(u8_vec: &Vec<u8>) -> String{
     return bin_string;
 }
 
-// TESTED
-// Decodes a hex string to  a Vector containing u8's ==> Tested by test_hex_encoder_decoder
+// Decodes a hex string to  a Vector containing u8's
 fn hex_string_to_u8_vec(s: &String) -> Vec<u8> {
     match hex::decode(s) {
         Ok(result) => {
@@ -178,16 +160,13 @@ fn hex_string_to_u8_vec(s: &String) -> Vec<u8> {
     }
 }
 
-// TESTED
-//Encodes a Vector containing u8's to a hex string ==> Tested by test_hex_encoder_decoder
+//Encodes a Vector containing u8's to a hex string
 fn u8_vec_to_hex_string(u8_vec: &Vec<u8>) -> String{
     let hex_string: String = hex::encode(u8_vec);
     return hex_string;
 }
 
-
-// TESTED
-//Pads a given binary string by prefixing a 1 to every 7 bits ==> Tested by test_pad_encoded_data
+//Pads a given binary string by prefixing a 1 to every 7 bits
 fn pad_encoded_data(encoded_data: &String) -> String {
     let mut padded_encoded_data: String = String::new();
     let mut temp_padded_byte: String = "1".to_string();
@@ -204,7 +183,6 @@ fn pad_encoded_data(encoded_data: &String) -> String {
     return padded_encoded_data;
 }
 
-// TESTED
 //Removes padding
 fn unpad_encoded_data(padded_data: &String) -> String {
     let mut data: String = String::new();
@@ -223,8 +201,6 @@ fn unpad_encoded_data(padded_data: &String) -> String {
     return data;
 }
 
-
-// TESTED
 //Encodes string with given HashMap
 fn huffman_encode_string(data: &String,encoding_map: &HashMap<char, String>) -> String {
     let mut encoded_data = String::new();
@@ -239,7 +215,6 @@ fn huffman_encode_string(data: &String,encoding_map: &HashMap<char, String>) -> 
     return encoded_data;
 }
 
-// TESTED
 //Decodes Huffman encoded binary string using provided encoding HashMap
 fn huffman_decode_bin_string(encoded_data: &String,encoding_map: &HashMap<char, String>) -> String{
     let inverted_encoding_map = invert_encoding_map(&encoding_map);
@@ -268,7 +243,6 @@ fn huffman_decode_bin_string(encoded_data: &String,encoding_map: &HashMap<char, 
     return data;
 }
 
-//TESTED
 //Inverts Keys and values for a given Encoding Map
 fn invert_encoding_map(encoding_map: &HashMap<char, String>) -> HashMap<String, char>{
     let mut inverted_encoding_map: HashMap<String, char> = HashMap::new();
@@ -280,81 +254,62 @@ fn invert_encoding_map(encoding_map: &HashMap<char, String>) -> HashMap<String, 
 }
 
 
-//All of our Printing functions
-
-fn print_frequency_map(frequency_map: &HashMap<char,i64>){
-    println!("The frequency map:");
-    println!("\"{:?}\"",frequency_map);
-    println!("");
-}
-
-fn print_data(data: &String,title: String){
-    println!("{}:",title);
-    println!("\"{}\"",data);
-    println!("");
-}
-
-fn print_huffman_encoded_data(huffman_encoded_data: &HuffmanData){
-    let json = serde_json::to_string(&huffman_encoded_data).unwrap();
-    println!("The Huffman encoded data:");
-    println!("{}",json);
-    println!("");
-}
-
-fn print_stats(data: &String,encoded_data: &String){
-    let data_size = (data.len() * 8) as f32;
-    let encoded_size = encoded_data.chars().count() as f32;
-    let ratio = (1 as f32 - ( encoded_size / data_size ) as f32) * 100 as f32 ;
+// //A cool idea would be to make this spit out a string for wasm to expose the stats.
+// fn print_stats(data: &String,encoded_data: &String){
+//     let data_size = (data.len() * 8) as f32;
+//     let encoded_size = encoded_data.chars().count() as f32;
+//     let ratio = (1 as f32 - ( encoded_size / data_size ) as f32) * 100 as f32 ;
     
-    println!("Stats:");
-    println!("Data size in bits {}",data_size);
-    println!("Encoded data size in bits {}",encoded_size);
-    println!("Compression Ratio is {}%", ratio);
-    println!("");
-}
+//     println!("Stats:");
+//     println!("Data size in bits {}",data_size);
+//     println!("Encoded data size in bits {}",encoded_size);
+//     println!("Compression Ratio is {}%", ratio);
+//     println!("");
+// }
 
-//Prints a node and all of its children as a Json Object
-fn print_node(node: &Node,is_root: bool) {
-    if is_root {
-        println!("The Huffman tree as a JSON object:");
-        print!("{{");
-    }
+// //Prints a node and all of its children as a Json Object
+// //A cool idea would be to make this spit out a string for wasm to expose the Tree.
+// fn print_node(node: &Node,is_root: bool) {
+//     if is_root {
+//         println!("The Huffman tree as a JSON object:");
+//         print!("{{");
+//     }
 
-    print!("\"frequency\": {},",node.freq);
-    match node.value {
-        Some(value) => {
-            print!("\"value\": \"{}\"",value);
-        }
-        None => {
-            print!("\"value\": \"\"");
-        }
-    }
-    match &node.left {
-        Some(left) => {
-            print!(",\"left\":{{");
-            print_node(&*left,false);
-            print!("}}");
-        }
-        None => {}
-    }
-    match &node.right {
-        Some(right) => {
-            print!(",\"right\":{{");
-            print_node(&*right,false);
-            print!("}}");
-        }
-        None => {}
-    }
+//     print!("\"frequency\": {},",node.freq);
+//     match node.value {
+//         Some(value) => {
+//             print!("\"value\": \"{}\"",value);
+//         }
+//         None => {
+//             print!("\"value\": \"\"");
+//         }
+//     }
+//     match &node.left {
+//         Some(left) => {
+//             print!(",\"left\":{{");
+//             print_node(&*left,false);
+//             print!("}}");
+//         }
+//         None => {}
+//     }
+//     match &node.right {
+//         Some(right) => {
+//             print!(",\"right\":{{");
+//             print_node(&*right,false);
+//             print!("}}");
+//         }
+//         None => {}
+//     }
     
-    if is_root {
-        print!("}}");
-        println!("");
-        println!("");
-    }
-}
+//     if is_root {
+//         print!("}}");
+//         println!("");
+//         println!("");
+//     }
+// }
 
 
-// Unit Tests
+// Unit Tests all internal functions must be tested here. One test per function unless impossible
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -485,7 +440,6 @@ mod tests {
         assert_eq!(expected_data,test_output);
 
     }
-
 
     #[test]
     fn test_invert_encoding_map(){

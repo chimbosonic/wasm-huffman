@@ -8,4 +8,5 @@ docker-build:
 docker-run:
 	docker run -it -p 8585:8585 --rm -v $(shell pwd):/data -w /data $(PROJECT) /bin/bash
 
-
+clean:
+	-rm -rf dist pkg target node_modules

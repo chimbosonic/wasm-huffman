@@ -1,11 +1,17 @@
 use wasm_huffman::*;
 use std::collections::HashMap;
 
+// All public functions must be tested here. One test per function unless impossible.
+
+#[test]
+fn test_add(){
+    assert_eq!(10,add(1,9));
+}
 
 #[test]
 fn test_huffman_encode(){
     let input_data = "My super test string".to_string();
-    
+
     let expected_data_encoded_string = "b6bcefa0bec4df94d157".to_string();
     let mut expected_data_encoding_map: HashMap<char, String> = HashMap::new();
     expected_data_encoding_map.insert('M',"0110".to_string());
@@ -21,7 +27,7 @@ fn test_huffman_encode(){
     expected_data_encoding_map.insert('i',"0100".to_string());
     expected_data_encoding_map.insert('s',"100".to_string());
 
-    let test_output = huffman_encode(&input_data,false);
+    let test_output = huffman_encode(&input_data);
 
     assert_eq!(expected_data_encoded_string,test_output.encoded_data);
     assert_eq!(expected_data_encoding_map,test_output.encoding_map);
