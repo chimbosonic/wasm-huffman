@@ -1,18 +1,28 @@
 async function main(){
 	const huffman = await import("../pkg/index.js").catch(console.error);
 
-	console.log("Testing addition: " + huffman.add(3,7));
+	function user_input() {
+		const encode_data = document.getElementById("encode_data");
+		const encoding_map = document.getElementById("encoding_map");
+		const decode_data = document.getElementById("decode_data");
+		const button_encode = document.getElementById("encode");
+		const button_decode = document.getElementById("decode");
 
-	function print_addition_on_click() {
-		const button = document.getElementById("addition");
-	
-		button.addEventListener('click', (event) => {
-			console.log(huffman.add(10,10)); 
+		button_encode.addEventListener('click', (event) => {
+			data_encoded = huffman.encode(decode_data.value);
+			
+			encode_data.value = data_encoded.get_data();
+			encoding_map.value = data_encoded.get_map();
+		})
+
+		button_decode.addEventListener('click', (event) => {
+			data_decoded = huffman.decode(huffman.Huffdata.new(encode_data.value,encoding_map.value));
+			
+			decode_data.value = data_decoded;
 		})
 	}
 
-	print_addition_on_click();
-
+	user_input();
 }
 
 main();
