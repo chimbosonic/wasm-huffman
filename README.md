@@ -1,3 +1,10 @@
+[![Repo Size][loc_img]][loc]
+[![License][license_img]][license_file]
+[![Build][actions]][loc]
+
+# wasm-huffman
+[huff-tree-tap](https://github.com/chimbosonic/huff-tree-tap) in WASM
+It is deployed [here](https://chimbosonic.com/wasm_huffman/index.html)
 ## How to install
 
 ```sh
@@ -33,3 +40,9 @@ npm run build
 * The `static` folder contains any files that you want copied as-is into the final build. It contains an `index.html` file which loads the `index.js` file.
 
 * The `tests` folder contains your Rust unit tests.
+
+[loc]: https://github.com/chimbosonic/wasm-huffman "Repository"
+[loc_img]: https://tokei.rs/b1/github/chimbosonic/wasm-huffman?category=code "Repository Size"
+[actions]: https://github.com/chimbosonic/wasm-huffman/actions/workflows/build.yml/badge.svg
+[license_file]: https://github.com/chimbosonic/wasm-huffman/blob/master/LICENSE "License File"
+[license_img]: https://img.shields.io/github/license/chimbosonic/wasm-huffman "License Display"
