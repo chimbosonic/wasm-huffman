@@ -9,6 +9,7 @@ async function main(){
 		const button_decode = document.getElementById("decode");
 
 		button_encode.addEventListener('click', (event) => {
+			console.log("Encoding");
 			data_encoded = huffman.encode(decode_data.value);
 			
 			encode_data.value = data_encoded.get_data();
@@ -16,6 +17,7 @@ async function main(){
 		})
 
 		button_decode.addEventListener('click', (event) => {
+			console.log("Decoding");
 			data_decoded = huffman.decode(huffman.Huffdata.new(encode_data.value,encoding_map.value));
 			
 			decode_data.value = data_decoded;
