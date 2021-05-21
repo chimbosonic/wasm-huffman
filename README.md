@@ -3,7 +3,7 @@
 [![Build][actions]][loc]
 
 # wasm-huffman
-[huff-tree-tap](https://github.com/chimbosonic/huff-tree-tap) in WASM
+[huff-tree-tap](https://github.com/chimbosonic/huff-tree-tap) in WASM.
 It is deployed [here](https://chimbosonic.com/wasm_huffman/index.html)
 ## How to install
 
