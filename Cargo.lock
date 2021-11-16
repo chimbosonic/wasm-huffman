@@ -138,9 +138,9 @@ checksum = "7f24254aa9a54b5c858eaee2f5bccdb46aaf0e486a595ed5fd8f86ba55232a70"
 
 [[package]]
 name = "huff-tree-tap"
-version = "0.0.2"
+version = "0.0.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "d9c5799fb675eccae2996ac90ab7a6aab3a923580489609400c58966e514b316"
+checksum = "45ce5ff69d5f72ff3a1fd130f6d19c45f12595384040af39d071251484d71f86"
 dependencies = [
  "hex",
  "serde",
