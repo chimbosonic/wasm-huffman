@@ -31,11 +31,11 @@ default = ["wee_alloc"]
 [dependencies]
 # The `wasm-bindgen` crate provides the bare minimum functionality needed
 # to interact with JavaScript.
-wasm-bindgen = "0.2.74"
-huff-tree-tap = "0.0.2"
+wasm-bindgen = "0.2.78"
+huff-tree-tap = "0.0.3"
 hex = "0.4.3"
-serde = "1.0.125"
-serde_json = "1.0.64"
+serde = "1.0.130"
+serde_json = "1.0.70"
 
 # `wee_alloc` is a tiny allocator for wasm that is only ~1K in code size
 # compared to the default allocator's ~10K. However, it is slower than the default
@@ -45,12 +45,12 @@ wee_alloc = { version = "0.4.5", optional = true }
 # The `web-sys` crate allows you to interact with the various browser APIs,
 # like the DOM.
 [dependencies.web-sys]
-version = "0.3.51"
+version = "0.3.55"
 features = ["console"]
 
 # These crates are used for running unit tests.
 [dev-dependencies]
-wasm-bindgen-test = "0.3.24"
-futures = "0.3.15"
-js-sys = "0.3.51"
-wasm-bindgen-futures = "0.4.24"
+wasm-bindgen-test = "0.3.28"
+futures = "0.3.17"
+js-sys = "0.3.55"
+wasm-bindgen-futures = "0.4.28"
