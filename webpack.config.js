@@ -6,6 +6,7 @@ const dist = path.resolve(__dirname, "dist");
 
 module.exports = {
   mode: "production",
+  devtool: "source-map",
   experiments: {
     asyncWebAssembly: true,
     syncWebAssembly: true
@@ -18,7 +19,7 @@ module.exports = {
     filename: "[name].js"
   },
   devServer: {
-    contentBase: dist,
+    static: dist,
   },
   plugins: [
     new CopyPlugin({

@@ -4,7 +4,7 @@
   "version": "0.1.0",
   "scripts": {
     "build": "webpack",
-    "start": "webpack-dev-server --host 0.0.0.0 --port 8585 -d",
+    "start": "webpack-dev-server --host 0.0.0.0 --port 8585",
     "cleanup": "rimraf dist pkg target",
     "test": "cargo test && wasm-pack test --headless"
   },
