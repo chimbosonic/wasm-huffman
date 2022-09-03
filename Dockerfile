@@ -1,7 +1,7 @@
-FROM rust:1.52.0 as noderust
+FROM rust:1.63.0 as noderust
 
 # Add node to the rust container taken from https://github.com/nodejs/docker-node/blob/main/16/buster/Dockerfile
-ENV NODE_VERSION 16.15.0
+ENV NODE_VERSION 16.17.0
 
 RUN ARCH= && dpkgArch="$(dpkg --print-architecture)" \
   && case "${dpkgArch##*-}" in \
@@ -40,7 +40,7 @@ RUN ARCH= && dpkgArch="$(dpkg --print-architecture)" \
   && node --version \
   && npm --version
 
-ENV YARN_VERSION 1.22.18
+ENV YARN_VERSION 1.22.19
 
 RUN set -ex \
   && for key in \
