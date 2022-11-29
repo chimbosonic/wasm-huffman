@@ -1,12 +1,12 @@
 {
-  "author": "Alexis Lowe <alexis.lowe@protonmail.com>",
+  "author": "Alexis Lowe <agl314@chimbosonic.com>",
   "name": "wasm-huffman",
   "version": "0.1.0",
   "scripts": {
     "build": "webpack",
     "start": "webpack-dev-server --host 0.0.0.0 --port 8585",
     "cleanup": "rimraf dist pkg target",
-    "test": "cargo test && wasm-pack test --headless"
+    "test": "cargo test && wasm-pack test --node"
   },
   "devDependencies": {
     "@wasm-tool/wasm-pack-plugin": "^1.6.0",

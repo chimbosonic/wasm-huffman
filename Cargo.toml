@@ -1,8 +1,8 @@
 [package]
 name = "wasm-huffman"
 description = "huffman on wasm"
-version = "0.1.0"
-authors = ["Alexis Lowe <alexis.lowe@protonmail.com>"]
+version = "0.1.1"
+authors = ["Alexis Lowe <agl314@chimbosonic.com>"]
 categories = ["wasm"]
 readme = "README.md"
 edition = "2018"
@@ -24,10 +24,6 @@ incremental = false
 codegen-units = 16
 rpath = false
 
-[features]
-# If you uncomment this line, it will enable `wee_alloc`:
-default = ["wee_alloc"]
-
 [dependencies]
 # The `wasm-bindgen` crate provides the bare minimum functionality needed
 # to interact with JavaScript.
@@ -36,11 +32,6 @@ huff-tree-tap = "0.0.3"
 hex = "0.4.3"
 serde = "1.0.144"
 serde_json = "1.0.85"
-
-# `wee_alloc` is a tiny allocator for wasm that is only ~1K in code size
-# compared to the default allocator's ~10K. However, it is slower than the default
-# allocator, so it's not enabled by default.
-wee_alloc = { version = "0.4.5", optional = true }
 
 # The `web-sys` crate allows you to interact with the various browser APIs,
 # like the DOM.
