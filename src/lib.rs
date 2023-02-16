@@ -31,7 +31,7 @@ impl Huffdata {
 
 #[wasm_bindgen]
 pub fn encode(data: String) -> Huffdata {
-    let encoded_data: HuffmanData = huffman_encode(&data.into_bytes());
+    let encoded_data: HuffmanData = HuffmanData::new(&data.into_bytes()).unwrap();
     let hex_encoded_data = hex::encode(encoded_data.encoded_data);
     let encoding_map_string = serde_json::to_string(&encoded_data.encoding_map).unwrap();
     return Huffdata::new(hex_encoded_data, encoding_map_string);
@@ -39,13 +39,16 @@ pub fn encode(data: String) -> Huffdata {
 
 #[wasm_bindgen]
 pub fn decode(huffdata: Huffdata) -> String {
-    let encoded_data = hex::decode(huffdata.get_data()).unwrap();
+    let input_encoded_data = hex::decode(huffdata.get_data()).unwrap();
     let encoding_map_string = huffdata.get_map();
     let encoding_map: HashMap<u8, String> = serde_json::from_str(&encoding_map_string).unwrap();
-    let decoded_data = huffman_decode(&HuffmanData {
-        encoded_data: encoded_data,
+    let encoded_data = HuffmanData {
+        encoded_data: input_encoded_data,
         encoding_map: encoding_map,
-    });
+        stats: EncodingStats {data_size: 1.0,encoded_size: 1.0,ratio: 1.0}
+    };
+
+    let decoded_data = encoded_data.decode().unwrap();
 
     return String::from_utf8_lossy(&decoded_data).to_string();
 }
@@ -98,8 +101,8 @@ mod tests {
     #[test]
     fn test_huff_tree_tap() {
         let input_data: Vec<u8> = "this is a test string!".to_string().into_bytes();
-        let test_huffman_data: HuffmanData = huffman_encode(&input_data);
-        let test_output = huffman_decode(&test_huffman_data);
+        let test_huffman_data: HuffmanData = HuffmanData::new(&input_data).unwrap();
+        let test_output = test_huffman_data.decode().unwrap();
 
         assert_eq!(input_data, test_output)
     }
