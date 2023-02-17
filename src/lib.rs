@@ -45,7 +45,11 @@ pub fn decode(huffdata: Huffdata) -> String {
     let encoded_data = HuffmanData {
         encoded_data: input_encoded_data,
         encoding_map: encoding_map,
-        stats: EncodingStats {data_size: 1.0,encoded_size: 1.0,ratio: 1.0}
+        stats: EncodingStats {
+            data_size: 1.0,
+            encoded_size: 1.0,
+            ratio: 1.0,
+        },
     };
 
     let decoded_data = encoded_data.decode().unwrap();
