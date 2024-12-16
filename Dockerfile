@@ -1,7 +1,7 @@
 FROM rust:1.65.0 as noderust
 
 # Add node to the rust container taken from https://github.com/nodejs/docker-node/blob/main/16/buster/Dockerfile
-ENV NODE_VERSION 18.12.1
+ENV NODE_VERSION 20.18.0
 
 RUN ARCH= && dpkgArch="$(dpkg --print-architecture)" \
   && case "${dpkgArch##*-}" in \
@@ -37,26 +37,6 @@ RUN ARCH= && dpkgArch="$(dpkg --print-architecture)" \
   && ln -s /usr/local/bin/node /usr/local/bin/nodejs \
   && node --version \
   && npm --version
-
-ENV YARN_VERSION 1.22.19
-
-RUN set -ex \
-  && for key in \
-    6A010C5166006599AA17F08146C2130DFD2497F5 \
-  ; do \
-    gpg --batch --keyserver hkps://keys.openpgp.org --recv-keys "$key" ; \
-  done \
-  && curl -fsSLO --compressed "https://yarnpkg.com/downloads/$YARN_VERSION/yarn-v$YARN_VERSION.tar.gz" \
-  && curl -fsSLO --compressed "https://yarnpkg.com/downloads/$YARN_VERSION/yarn-v$YARN_VERSION.tar.gz.asc" \
-  && gpg --batch --verify yarn-v$YARN_VERSION.tar.gz.asc yarn-v$YARN_VERSION.tar.gz \
-  && mkdir -p /opt \
-  && tar -xzf yarn-v$YARN_VERSION.tar.gz -C /opt/ \
-  && ln -s /opt/yarn-v$YARN_VERSION/bin/yarn /usr/local/bin/yarn \
-  && ln -s /opt/yarn-v$YARN_VERSION/bin/yarnpkg /usr/local/bin/yarnpkg \
-  && rm yarn-v$YARN_VERSION.tar.gz.asc yarn-v$YARN_VERSION.tar.gz \
-  && yarn --version
-
-
 
 FROM noderust as devenv
 
