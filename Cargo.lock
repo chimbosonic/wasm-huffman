@@ -126,13 +126,9 @@ checksum = "7f24254aa9a54b5c858eaee2f5bccdb46aaf0e486a595ed5fd8f86ba55232a70"
 
 [[package]]
 name = "huff-tree-tap"
-version = "0.1.0"
+version = "0.2.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "839d1275692bee3b5f9218d080be928b6a3a438d16b81ba5ba7d1739aba347a4"
-dependencies = [
- "serde",
- "serde_json",
-]
+checksum = "acb1efb036ca3fd1665a1864210ab75b491b51fb6edf441762ec6aaebc445697"
 
 [[package]]
 name = "itoa"
